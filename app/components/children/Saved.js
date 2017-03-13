@@ -6,7 +6,7 @@ var Saved = React.createClass({
   // Here we describe this component's render method
   render: function() {
     return (
-      <div className="panel panel-default">
+      <div className="panel panel-info">
         <div className="panel-heading">
           <h3 className="panel-title text-center">Saved</h3>
         </div>
@@ -19,6 +19,13 @@ var Saved = React.createClass({
                 <h3>{search.title}</h3>
                 <p><a href={search.url}>{search.url}</a></p>
                 <p>{search.date}</p>
+                <button
+                  className="btn btn-danger"
+                  type="button"
+                  // onClick={this.resetClick}
+                >
+                Delete
+              </button>
               </div>
             );
           })}

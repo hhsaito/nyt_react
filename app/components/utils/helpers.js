@@ -7,12 +7,8 @@ var authKey = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
 
 // These variables will hold the results we get from the user's inputs via HTML
 var queryTerm   = "";
-var numResults  = 0;
 var startYear   = 0;
 var endYear   = 0;
-
-// Array to hold the various article info
-var articleCounter = 0;
 
 // Helper functions for making API Calls
 var helper = {
@@ -43,7 +39,7 @@ var helper = {
 
 
       if (response.data.response.docs[0]) {
-        return response.data.response.docs[0];
+        return response.data.response.docs;
       }
       // If we don't get any results, return an empty string
       return "";

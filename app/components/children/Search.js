@@ -40,7 +40,7 @@ var Search = React.createClass({
   // Here we describe this component's render method
   render: function() {
     return (
-      <div className="panel panel-default">
+      <div className="panel panel-info">
         <div className="panel-heading">
           <h3 className="panel-title text-center">Search</h3>
         </div>

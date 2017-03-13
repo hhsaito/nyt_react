@@ -15,7 +15,7 @@ var Main = React.createClass({
   // Here we set a generic state associated with the number of clicks
   // Note how we added in this history state variable
   getInitialState: function() {
-    return { term: "", results: "", history: [], endYear: "", startYear: "" };
+    return { term: "", results: [], history: [], endYear: "", startYear: "" };
   },
 
   // The moment the page renders get the History
@@ -34,31 +34,28 @@ var Main = React.createClass({
   componentDidUpdate: function() {
     console.log('Component Updated!');
     console.log('State object: ', this.state.term, 'startYear: ', this.state.startYear );
-
+    var self = this;
     if (this.state.term !== '') {
       // Run the query for the address
       helpers.runQuery(this.state.term, this.state.startYear, this.state.endYear).then(function(article) {
-        
-      console.log("Article results here: ", article.headline.main, " url: ", article.web_url, " date: ", article.pub_date);
-        // this.setState({ results: data });
-        // After we've done the post... then get the updated history
-        helpers.getArticles().then(function(response) {
-          console.log("Current Articles", response.data);
+          console.log('Results: ', article)
+          console.log("Article results here: ", article[0].headline.main, " url: ", article[0].web_url, " date: ", article[0].pub_date);
+          self.setState({ results: article });
+      })
+      // After we've done the post... then get the updated history
+      helpers.getArticles().then(function(response) {
+        console.log("Current Articles", response.data);
 
-          console.log("Articles: ", response.data);
+        console.log("History: ", response.data);
 
-          this.setState({ history: response.data });
-        }.bind(this));
-        
-      }.bind(this));
-    }
-  },
-  // set to save
-  // After we've received the result... then post the search term to our history.
+        self.setState({ history: response.data });
+      })
+      // After we've received the result... then post the search term to our history.
       // helpers.postArticles(article.headline.main, article.web_url, article.pub_date).then(function() {
       //   console.log("Updated!");
       // }.bind(this));
-    // end set to save
+    }
+  },  
 
   // This function allows childrens to update the parent.
   setTerm: function(term) {
@@ -78,7 +75,7 @@ var Main = React.createClass({
         </div>
         <div className="row">
           <div className="col-sm-12">
-            <Results address={this.state.results} />
+            <Results results={this.state.results} />
           </div>
         </div>
         <div className="row">
