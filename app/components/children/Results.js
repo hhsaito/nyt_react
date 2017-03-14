@@ -4,6 +4,17 @@ var React = require("react");
 // Creating the Results component
 var Results = React.createClass({
 
+  // When a user submits...
+  handleSubmit: function(event) {
+    // prevent the HTML from trying to submit a form if the user hits "Enter" instead of
+    // clicking the button
+    event.preventDefault();
+
+    // Set the parent to have the search term
+    this.props.setTerm(this.state.term);
+    this.setState({ term: "" });
+  },
+  
   // handleClick: function() {
   //   this.setState({  });
   // },

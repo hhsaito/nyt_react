@@ -3,7 +3,8 @@ var axios = require("axios");
 
 // NYT API key
 // var geocodeAPI = "35e5548c618555b1a43eb4759d26b260";
-var authKey = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
+// var authKey = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
+var authKey = "77a3faa1acc44ae9bfdaccac37b9e3e4";
 
 // These variables will hold the results we get from the user's inputs via HTML
 var queryTerm   = "";

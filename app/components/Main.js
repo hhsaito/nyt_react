@@ -38,24 +38,30 @@ var Main = React.createClass({
     if (this.state.term !== '') {
       // Run the query for the address
       helpers.runQuery(this.state.term, this.state.startYear, this.state.endYear).then(function(article) {
+        if (article !== self.state.results) {
           console.log('Results: ', article)
           console.log("Article results here: ", article[0].headline.main, " url: ", article[0].web_url, " date: ", article[0].pub_date);
           self.setState({ results: article });
-      })
-      // After we've done the post... then get the updated history
-      helpers.getArticles().then(function(response) {
-        console.log("Current Articles", response.data);
+            // After we've done the post... then get the updated history
+          helpers.getArticles().then(function(response) {
+            console.log("Current Articles", response.data);
 
-        console.log("History: ", response.data);
+            console.log("History: ", response.data);
 
-        self.setState({ history: response.data });
+            self.setState({ history: response.data });
+          })
+        }
       })
-      // After we've received the result... then post the search term to our history.
+    }
+  },
+
+
+  // set to save
+  // After we've received the result... then post the search term to our history.
       // helpers.postArticles(article.headline.main, article.web_url, article.pub_date).then(function() {
       //   console.log("Updated!");
       // }.bind(this));
-    }
-  },  
+    // end set to save
 
   // This function allows childrens to update the parent.
   setTerm: function(term) {
