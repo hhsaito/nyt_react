@@ -30,7 +30,7 @@ var helper = {
 
     // If the user provides a startYear -- the endYear will be included in the queryURL
     if (parseInt(endYear)) {
-      queryURL = queryURL + "&end_date=" + endYear + "0101";
+      queryURL = queryURL + "&end_date=" + endYear + "1231";
       console.log('inside call: ', endYear);
     }
 

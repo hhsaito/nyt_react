@@ -4,20 +4,25 @@ var React = require("react");
 // Creating the Results component
 var Results = React.createClass({
 
+  getInitialState: function() {
+    return { 
+      title: "", 
+      url: "", 
+      date: "",
+    }
+  },
+
   // When a user submits...
   handleSubmit: function(event) {
     // prevent the HTML from trying to submit a form if the user hits "Enter" instead of
     // clicking the button
     event.preventDefault();
 
-    // Set the parent to have the search term
-    this.props.setTerm(this.state.term);
-    this.setState({ term: "" });
+    console.log('submitted: ', this.state);
+    console.log('Children: ', this.props);
+
   },
-  
-  // handleClick: function() {
-  //   this.setState({  });
-  // },
+
   // Here we render the function
   render: function() {
     return (
@@ -34,16 +39,15 @@ var Results = React.createClass({
                 <h3>{search.headline.main}</h3>
                 <p><a href={search.web_url}>{search.web_url}</a></p>
                 <p>{search.pub_date}</p>
-                <button
-                className="btn btn-primary"
-                type="button"
-                // onClick={this.handleClick}
-              >
-                Save
-              </button>
+                <form onSubmit={(event) => this.handleSubmit(event)}>
+                  <input id="title" type="hidden" value={search.headline.main} />
+                  <input id="url" type="hidden" value={search.web_url} />
+                  <input id="date" type="hidden" value={search.pub_date} />
+                  <button className="btn btn-primary" type="submit">Save</button>
+                </form>
               </div>
             );
-          })}
+          }, this )}
         </div>
       </div>
     );

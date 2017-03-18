@@ -9,9 +9,16 @@ var Search = React.createClass({
     return { 
       term: "", 
       startYear: "", 
-      endYear: "" 
+      endYear: "",
+      //results: {}
     }
   },
+
+  // componentDidMount: function() {
+  //   helpers.runQuery(this.state.term, this.state.startYear, this.state.endYear).then(function(data){
+  //     this.setState({results: data.docs})
+  //   }).bind(this);
+  // },
 
   // This function will respond to the user input
   handleChange: function(key) {
