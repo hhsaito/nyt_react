@@ -24,6 +24,8 @@ app.use(express.static("./public"));
 // -------------------------------------------------
 
 // MongoDB Configuration configuration (Change this URL to your own DB)
+// mongoose.connect("mongodb://localhost/nytreact_db");
+// Live version
 mongoose.connect("mongodb://hhsaito:pleaseconnect@ds129260.mlab.com:29260/heroku_0wc5csbw");
 var db = mongoose.connection;
 
@@ -62,22 +64,31 @@ app.get("/api/saved", function(req, res) {
 
 // This is the route we will send POST requests to save each search.
 app.post("/api/saved", function(req, res) {
-  console.log("BODY: " + req.body.title);
-
-  // Here we'll save the location based on the JSON input.
-  // We'll use Date.now() to always get the current date time
-  Articles.create({
-    title: req.body.title,
-    url: req.body.url,
-    date: req.body.date
-  }, function(err) {
-    if (err) {
+  //console.log("BODY: " + req.body.title);
+  var newArticle = new Articles(req.body);
+  newArticle.save(function(err, doc){
+    if(err){
       console.log(err);
     }
     else {
-      res.send("Saved Search");
+      res.send(doc);
     }
-  });
+  })
+
+  // Here we'll save the location based on the JSON input.
+  // We'll use Date.now() to always get the current date time
+  // Articles.create({
+  //   title: req.body.title,
+  //   url: req.body.url,
+  //   date: req.body.date
+  // }, function(err) {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+  //   else {
+  //     res.send("Saved Search");
+  //   }
+  // });
 });
 
 // -------------------------------------------------
