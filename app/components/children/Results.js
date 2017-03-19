@@ -1,5 +1,6 @@
 // Include React
 var React = require("react");
+var helpers = require("../utils/helpers");
 
 // Creating the Results component
 var Results = React.createClass({
@@ -12,17 +13,14 @@ var Results = React.createClass({
     }
   },
 
-  // When a user submits...
-  handleSubmit: function(event) {
-    // prevent the HTML from trying to submit a form if the user hits "Enter" instead of
-    // clicking the button
-    event.preventDefault();
-
-    console.log('submitted: ', this.state);
-    console.log('Children: ', this.props);
-
+  handleClick: function(i, event) {
+    console.log('hit me');
+    console.log('this is the title: ', this.props.results[i]);
+    helpers.postArticles(this.props.results[i].headline.main, this.props.results[i].web_url, this.props.results[i].pub_date).then(function() {
+      console.log("Updated!");
+      this.setState({ title: this.props.results[i].headline.main });
+    }.bind(this));
   },
-
   // Here we render the function
   render: function() {
     return (
@@ -39,12 +37,14 @@ var Results = React.createClass({
                 <h3>{search.headline.main}</h3>
                 <p><a href={search.web_url}>{search.web_url}</a></p>
                 <p>{search.pub_date}</p>
-                <form onSubmit={(event) => this.handleSubmit(event)}>
-                  <input id="title" type="hidden" value={search.headline.main} />
-                  <input id="url" type="hidden" value={search.web_url} />
-                  <input id="date" type="hidden" value={search.pub_date} />
-                  <button className="btn btn-primary" type="submit">Save</button>
-                </form>
+
+                <button
+                className="btn btn-primary"
+                type="button"
+                onClick={this.handleClick.bind(this, i)}
+              >
+                Save
+              </button>
               </div>
             );
           }, this )}

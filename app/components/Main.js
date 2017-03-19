@@ -15,7 +15,7 @@ var Main = React.createClass({
   // Here we set a generic state associated with the number of clicks
   // Note how we added in this history state variable
   getInitialState: function() {
-    return { term: "", results: [], history: [], endYear: "", startYear: "" };
+    return { term: "", results: [], history: [], endYear: "", startYear: "", title: "", url: "", date: "" };
   },
 
   // The moment the page renders get the History
@@ -36,23 +36,49 @@ var Main = React.createClass({
     console.log('State object: ', this.state.term, 'startYear: ', this.state.startYear );
     var self = this;
     if (this.state.term !== '') {
-      // Run the query for the address
       helpers.runQuery(this.state.term, this.state.startYear, this.state.endYear).then(function(article) {
         if (article !== self.state.results) {
-          console.log('Results: ', article)
-          console.log("Article results here: ", article[0].headline.main, " url: ", article[0].web_url, " date: ", article[0].pub_date);
           self.setState({ results: article });
-            // After we've done the post... then get the updated history
-          helpers.getArticles().then(function(response) {
-            console.log("Current Articles", response.data);
-
-            console.log("History: ", response.data);
-
-            self.setState({ history: response.data });
-          })
         }
+      });
+    }
+    if (this.state.title !== '') {
+      helpers.postArticles(this.state.title, this.state.url, this.state.date).then(function() {
+        console.log("Updated!");
+
+        helpers.getArticles().then(function(response) {
+          console.log("Current Articles", response.data);
+          console.log("History: ", response.data);
+          self.setState({ history: response.data });
+        })
       })
     }
+
+    // helpers.postArticles(this.props.results[i].headline.main, this.props.results[i].web_url, this.props.results[i].pub_date).then(function() {
+    //   console.log("Updated!");
+    // }.bind(this));
+
+// var self = this;
+//     if (this.state.term !== '') {
+//       // Run the query for the address
+//       helpers.runQuery(this.state.term, this.state.startYear, this.state.endYear).then(function(article) {
+//         if (article !== self.state.results) {
+//           console.log('Results: ', article)
+//           console.log("Article results here: ", article[0].headline.main, " url: ", article[0].web_url, " date: ", article[0].pub_date);
+//           self.setState({ results: article });
+//             // After we've done the post... then get the updated history
+//           helpers.getArticles().then(function(response) {
+//             console.log("Current Articles", response.data);
+
+//             console.log("History: ", response.data);
+
+//             self.setState({ history: response.data });
+//           })
+//         }
+//       })
+//     }
+
+
   },
 
 
@@ -64,8 +90,11 @@ var Main = React.createClass({
     // end set to save
 
   // This function allows childrens to update the parent.
-  setTerm: function(term) {
-    this.setState({ term: term, startYear: startYear.value, endYear: endYear.value });
+  setTerm: function(term, startYear, endYear) {
+    this.setState({ term: term, startYear: startYear, endYear: endYear });
+  },
+  saveArticle: function(title, url, date) {
+    this.setState({ title: title, url: url, date: date });
   },
   // Here we render the function
   render: function() {
